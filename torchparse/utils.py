@@ -21,7 +21,7 @@ def padding_type(spatial, config):
         k = torch.tensor(config['kernel_size'])
         s = torch.tensor(config['stride'])
 
-        ret = (spatial*(s-1)-1+k)//2
+        ret = torch.div((spatial*(s-1)-1+k), 2, rounding_mode='trunc')
 
     elif config['padding'] == 'valid':
         ret = torch.zeros(spatial.shape).long()
@@ -51,7 +51,7 @@ def out_conv(spatial, config):
             for k in ['padding', 'kernel_size', 'stride']]
     p2 = p if isinstance(p, int) else p[0] + p[1]
 
-    return (spatial + p2 - k)//s + 1
+    return torch.div((spatial + p2 - k), s, rounding_mode='trunc') + 1
 
 def out_tconv(spatial, config):
     """
