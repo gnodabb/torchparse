@@ -51,6 +51,7 @@ class CFGParser(object):
         else:
             f = io.StringIO(cfg_fname)
         new_rows = format_repeats(f)
+        f.close()
 
         if not defined_submodule(new_rows):
             new_rows = ['[main_module]'] + new_rows
